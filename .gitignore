@@ -1,0 +1,4 @@
+*.o
+/megatrace
+/megactl
+/megasasctl
