@@ -84,7 +84,7 @@ Fetch TTY logs.
 #endif	/* defined(MEGA_SAS_CTL) */
 
 
-static char		*version = "0.4.3";
+static char		*version = "0.4.3-hmage";
 
 
 static int		verbosity = 0;
