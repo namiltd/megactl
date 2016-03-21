@@ -157,7 +157,7 @@ MEGA_DEVICE " as a character device with suitable",
 };
 
 
-void usage (const int ec, const char *format, ...)
+static void usage (const int ec, const char *format, ...)
 {
     char		**u;
     va_list		ap;
@@ -209,12 +209,12 @@ static char *friendlySize (uint64_t b, char *unit)
 
     for (k = 0; (b >= 10000) && (k < sizeof (suffix) / sizeof (suffix[0]) - 1); ++k, b /= 1024)
 	;
-    snprintf (bytes, sizeof bytes, "%4llu%s%s", b, suffix[k], unit);
+    snprintf (bytes, sizeof bytes, "%4"PRIu64"%s%s", b, suffix[k], unit);
     return bytes;
 }
 
 
-void describePhysicalDrive (FILE *f, struct physical_drive_info *d, int verbosity)
+static void describePhysicalDrive (FILE *f, struct physical_drive_info *d, int verbosity)
 {
     char			*state;
 
@@ -250,7 +250,7 @@ void describePhysicalDrive (FILE *f, struct physical_drive_info *d, int verbosit
 }
 
 
-void describeLogicalDrive (FILE *f, struct logical_drive_info *l, int verbosity)
+static void describeLogicalDrive (FILE *f, struct logical_drive_info *l, int verbosity)
 {
     char			*state;
     uint64_t			blocks;
@@ -305,7 +305,7 @@ void describeLogicalDrive (FILE *f, struct logical_drive_info *l, int verbosity)
 }
 
 
-void describeBattery (FILE *f, struct adapter_config *a, int verbosity)
+static void describeBattery (FILE *f, struct adapter_config *a, int verbosity)
 {
     if (a->battery.healthy)
 	fprintf (f, "good");
@@ -342,7 +342,7 @@ void describeBattery (FILE *f, struct adapter_config *a, int verbosity)
 }
 
 
-void describeAdapter (FILE *f, struct adapter_config *a, int verbosity)
+static void describeAdapter (FILE *f, struct adapter_config *a, int verbosity)
 {
     fprintf (f, "%-8s %-24s", a->name, a->product);
     if (verbosity > 0)
@@ -362,7 +362,7 @@ int main (int argc, char **argv)
 {
     int				k;
     int				fd;
-    uint32_t			driverVersion;
+    uint32_t			driverVersion = 0;
     uint32_t			numAdapters;
     int				startSelfTest = -1;
     int				healthCheck = 0;

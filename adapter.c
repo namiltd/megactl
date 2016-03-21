@@ -136,7 +136,7 @@ struct log_page_list *getDriveLogPage (struct physical_drive_info *d, uint8_t pa
 }
 
 
-int cmpPhysical (const void *a, const void *b)
+static int cmpPhysical (const void *a, const void *b)
 {
     struct physical_drive_info		*x = *((struct physical_drive_info **) a);
     struct physical_drive_info		*y = *((struct physical_drive_info **) b);
@@ -630,7 +630,7 @@ static char *getAdapterConfig3 (struct adapter_config *a)
 }
 
 
-int cmpChannel (const void *a, const void *b)
+static int cmpChannel (const void *a, const void *b)
 {
     int			x = (int) *((uint8_t *) a);
     int			y = (int) *((uint8_t *) b);

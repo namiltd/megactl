@@ -63,7 +63,7 @@ Fixes for 64-bit systems.
 enum state { UNTRACED, INBOUND, OUTBOUND };
 
 
-void copyout (void *buf, size_t len, pid_t pid, uint32_t addr)
+static inline void copyout (void *buf, size_t len, pid_t pid, uint32_t addr)
 {
     off_t		k;
     uint32_t		*z = (uint32_t *) buf;
@@ -77,7 +77,7 @@ void copyout (void *buf, size_t len, pid_t pid, uint32_t addr)
 }
 
 
-void copyin (void *buf, size_t len, pid_t pid, uint32_t addr)
+static inline void copyin (void *buf, size_t len, pid_t pid, uint32_t addr)
 {
     off_t		k;
     uint32_t		*z = (uint32_t *) buf;

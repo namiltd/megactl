@@ -112,18 +112,6 @@ static char *friendlySize (uint64_t b, char *unit)
 }
 
 
-static uint32_t blocksToGB (uint32_t blocks)
-{
-    return (long) (((uint64_t) blocks) * 512 / 1000000000);
-}
-
-
-static uint32_t blocksToGiB (uint32_t blocks)
-{
-    return blocks / 2 / 1024 / 1024;
-}
-
-
 static uint64_t extractInt64 (void *u, size_t len)
 {
     uint64_t			x;
