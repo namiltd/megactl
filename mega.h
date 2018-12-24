@@ -114,6 +114,8 @@ struct list_head {
 #define	SCSI_SELFTEST_FOREGROUND_SHORT	0x05
 #define	SCSI_SELFTEST_FOREGROUND_LONG	0x06
 
+/* Drives without enclosure report this as the enclosure ID */
+#define DISK_NOENC 0xffff
 
 /* megaraid2 header file gets this wrong. */
 typedef struct {
@@ -545,7 +547,7 @@ struct adapter_config
     uint16_t			dram_size;		/* size of DRAM in MB */
     uint16_t			rebuild_rate;		/* rebuild rate as percentage */
     uint16_t			num_channels;		/* number of channels or enclosures */
-    uint8_t			*channel;		/* channel/enclosure map */
+    uint16_t			*channel;		/* channel/enclosure map */
     uint16_t			num_physicals;
     struct physical_drive_info	*physical;
     struct physical_drive_info	**physical_list;	/* ordered list of physical devices */

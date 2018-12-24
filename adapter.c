@@ -192,7 +192,10 @@ struct physical_drive_info *getPhysicalDriveInfo (struct adapter_config *a, uint
 	d->channel = info->enclosure;
 	d->id = info->slot;
 
-	snprintf (d->name, sizeof (d->name), "%se%us%u", a->name, d->channel, d->id);
+	if (d->channel == DISK_NOENC)
+	    snprintf (d->name, sizeof (d->name), "%se*s%u", a->name, d->id);
+	else
+	    snprintf (d->name, sizeof (d->name), "%se%us%u", a->name, d->channel, d->id);
 
 	d->inquiry = info->inquiry.inq;
 	strncpy (d->vendor, d->inquiry.vendor_info, sizeof (d->vendor) - 1);
@@ -369,7 +372,7 @@ static char *getAdapterConfig2 (struct adapter_config *a)
 	return "invalid number of logical drives";
 
     a->num_channels = pinfo->nchannels;
-    if ((a->channel = (uint8_t *) malloc (a->num_channels * sizeof (*a->channel))) == NULL)
+    if ((a->channel = (uint16_t *) malloc (a->num_channels * sizeof (*a->channel))) == NULL)
 	return "out of memory (channels)";
     for (k = 0; k < a->num_channels; ++k)
 	a->channel[k] = k;
@@ -519,7 +522,7 @@ static char *getAdapterConfig3 (struct adapter_config *a)
 	return "invalid number of logical drives";
 
     a->num_channels = pinfo->nchannels;
-    if ((a->channel = (uint8_t *) malloc (a->num_channels * sizeof (*a->channel))) == NULL)
+    if ((a->channel = (uint16_t *) malloc (a->num_channels * sizeof (*a->channel))) == NULL)
 	return "out of memory (channels)";
     for (k = 0; k < a->num_channels; ++k)
 	a->channel[k] = k;
@@ -696,7 +699,7 @@ static char *getAdapterConfig5 (struct adapter_config *a)
 
 	/* Didn't find this enclosure; extend the map */
 	++a->num_channels;
-	if ((a->channel = (uint8_t *) realloc (a->channel, a->num_channels * sizeof (*a->channel))) == NULL)
+	if ((a->channel = (uint16_t *) realloc (a->channel, a->num_channels * sizeof (*a->channel))) == NULL)
 	    return "out of memory (channels)";
 	a->channel[a->num_channels - 1] = device->device[k].enclosure;
     }
