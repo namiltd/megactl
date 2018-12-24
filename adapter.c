@@ -705,7 +705,31 @@ static char *getAdapterConfig5 (struct adapter_config *a)
     }
     qsort (a->channel, a->num_channels, sizeof (*a->channel), cmpChannel);
 
-    a->num_physicals = pinfo->pd_present_count;
+    /* Some notes:
+       Different meanings on different models.
+       - FC_MAX_PHYSICAL_DEVICES used on older controllers, which is 256
+         disks (overallocation)
+       - pd_disk_present_count is number of working drives, not counting
+         missing drives
+       - pd_present_count is unclear. It is pd_disk_present_count + 1 on some
+         controllers
+       - device_interface.port_count contains number of physical ports on the
+         controller
+
+       pd_present_count was used here, but in some controllers causes segfaults
+       when there is a failed drive, and not enough space is allocated.
+
+       Since there cannot be more devices than there are ports, that is a safe
+       number to set without going overboard.
+    */
+    a->num_physicals = pinfo->device_interface.port_count;
+
+    /* On some controllers, namely the PERC6e, the controller does not know
+       how many ports there are in the enclosure. Fall back to the worst case
+       scenario. */
+    if (a->num_physicals < pinfo->pd_disk_present_count)
+        a->num_physicals = FC_MAX_PHYSICAL_DEVICES;
+
     if ((a->physical = (struct physical_drive_info *) malloc (a->num_physicals * sizeof (*a->physical))) == NULL)
 	return "out of memory (physical drives)";
     memset (a->physical, 0, a->num_physicals * sizeof (*a->physical));
