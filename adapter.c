@@ -58,7 +58,7 @@ static void batteryStatus5 (struct adapter_config *a)
     a->battery.module_missing = !(a->q.v5.adapinfo.hw_present.bbu);
     a->battery.pack_missing = b->type == MEGA_BATTERY_TYPE_NONE;
     /*a->battery.low_voltage = b->remaining_capacity_alarm || b->remaining_time_alarm || b->fully_discharged;*/
-    a->battery.low_voltage = (!b->fully_charged && (b->remaining_time_alarm || b->remaining_capacity_alarm || b->fully_discharged)) ;
+    a->battery.low_voltage = !b->fully_charged && (b->remaining_time_alarm || b->remaining_capacity_alarm || b->fully_discharged) ;
     a->battery.high_temperature = b->over_temperature != 0;
     a->battery.over_charged = b->over_charged != 0;
     switch (b->charger_status)
