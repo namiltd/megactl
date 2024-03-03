@@ -1,3 +1,9 @@
+DESTDIR=
+PREFIX=         /usr
+BINDIR=         $(PREFIX)/bin
+METAINFODIR=    $(PREFIX)/share/metainfo/
+
+INSTALL=        install
 
 SRCS=		megactl.c adapter.c megaioctl.c megatrace.c callinfo.c dumpbytes.c logpage.c ntrim.c
 INC=		-I./schily -Iincludes-hack
@@ -22,6 +28,12 @@ megasasctl.o:	megactl.c
 
 %.o:		Makefile.bak %.c
 	$(CC) $(CFLAGS) -c -o $@ $*.c
+
+install: $(PROGRAMS)
+	$(INSTALL) -d $(DESTDIR)$(BINDIR)/
+	$(INSTALL) $(PROGRAMS) $(DESTDIR)$(BINDIR)
+	$(INSTALL) -d $(DESTDIR)$(METAINFODIR)/
+	$(INSTALL) megactl.metainfo.xml $(DESTDIR)$(METAINFODIR)/
 
 clean:
 	$(RM) $(PROGRAMS) *.o
