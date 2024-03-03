@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component>
+  <id>com.github.namiltd.megactl</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <name>megactl</name>
+  <summary>LSI Megaraid Control and Monitoring Tools</summary>
+  <description>
+    <p>
+      Provide tools to query hard drive and RAID volume status from
+      PERC2, PERC3, PERC4 and PERC5 adapters.
+    </p>
+  </description>
+  <provides>
+    <modalias>lkmodule:megaraid</modalias>
+    <modalias>lkmodule:megaraid_sas</modalias>
+    <modalias>pci:v00001000d000010E7sv*</modalias>
+    <modalias>pci:v00001000d000010E4sv*</modalias>
+    <modalias>pci:v00001000d000010E3sv*</modalias>
+    <modalias>pci:v00001000d000010E0sv*</modalias>
+    <modalias>pci:v00001000d000010E6sv*</modalias>
+    <modalias>pci:v00001000d000010E5sv*</modalias>
+    <modalias>pci:v00001000d000010E2sv*</modalias>
+    <modalias>pci:v00001000d000010E1sv*</modalias>
+    <modalias>pci:v00001000d0000001Csv*</modalias>
+    <modalias>pci:v00001000d0000001Bsv*</modalias>
+    <modalias>pci:v00001000d00000017sv*</modalias>
+    <modalias>pci:v00001000d00000016sv*</modalias>
+    <modalias>pci:v00001000d00000015sv*</modalias>
+    <modalias>pci:v00001000d00000014sv*</modalias>
+    <modalias>pci:v00001000d00000053sv*</modalias>
+    <modalias>pci:v00001000d00000052sv*</modalias>
+    <modalias>pci:v00001000d000000CFsv*</modalias>
+    <modalias>pci:v00001000d000000CEsv*</modalias>
+    <modalias>pci:v00001000d0000005Fsv*</modalias>
+    <modalias>pci:v00001000d0000005Dsv*</modalias>
+    <modalias>pci:v00001000d0000002Fsv*</modalias>
+    <modalias>pci:v00001000d0000005Bsv*</modalias>
+    <modalias>pci:v00001028d00000015sv*</modalias>
+    <modalias>pci:v00001000d00000413sv*</modalias>
+    <modalias>pci:v00001000d00000071sv*</modalias>
+    <modalias>pci:v00001000d00000073sv*</modalias>
+    <modalias>pci:v00001000d00000079sv*</modalias>
+    <modalias>pci:v00001000d00000078sv*</modalias>
+    <modalias>pci:v00001000d0000007Csv*</modalias>
+    <modalias>pci:v00001000d00000060sv*</modalias>
+    <modalias>pci:v00001000d00000411sv*</modalias>
+    <modalias>pci:v00008086d00001960sv*</modalias>
+    <modalias>pci:v0000101Ed00009060sv*</modalias>
+    <modalias>pci:v0000101Ed00009010sv*</modalias>
+  </provides>
+</component>
