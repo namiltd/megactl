@@ -507,7 +507,7 @@ static char *getAdapterConfig3 (struct adapter_config *a)
      case 4:	break;
      default:	return "invalid number of channels";
     }
-    strncpy (a->product, (char *) pinfo->product_name, sizeof (pinfo->product_name));
+    strncpy (a->product, (char *) pinfo->product_name, sizeof (a->product));
     a->product[sizeof (a->product) - 1] = '\0';
     ntrim (a->product);
     strncpy (a->bios, (char *) pinfo->bios_version, sizeof (a->bios));
@@ -665,7 +665,7 @@ static char *getAdapterConfig5 (struct adapter_config *a)
     a->dram_size = pinfo->memory_size;
 
     snprintf (a->name, sizeof (a->name), "a%u", a->target.adapno);
-    strncpy (a->product, (char *) pinfo->product_name, sizeof (pinfo->product_name));
+    strncpy (a->product, (char *) pinfo->product_name, sizeof (a->product));
     a->product[sizeof (a->product) - 1] = '\0';
     ntrim (a->product);
 
