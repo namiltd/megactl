@@ -598,33 +598,33 @@ int main (int argc, char **argv)
     }
 
     if ((fd = open (device, O_RDONLY)) < 0) {
-		if ((fp = fopen ("/proc/devices", "r")) == NULL) {
-			fprintf (stderr, "file /proc/devices access error\n");
-			return 1;
-		} else {
-			while (getline(&line, &len, fp) != -1) {
-				if (sscanf(line, "%d %s\n", &major, devname) == 2) {
-					sprintf(devnode, "/dev/%s_node", devname);
-					if (strcmp(device, devnode) == 0) {
-						free(line);
-						dev = makedev(major, 0);
-						mknod(device, S_IFCHR /*| 0666*/, dev);
-						break;
-					}
-				}
-				if (line) {
-					free(line);
-					line = NULL;
-				}
-			}
-			fclose(fp);
-		}
+        if ((fp = fopen ("/proc/devices", "r")) == NULL) {
+            fprintf (stderr, "file /proc/devices access error\n");
+                return 1;
+            } else {
+                while (getline(&line, &len, fp) != -1) {
+                    if (sscanf(line, "%d %s\n", &major, devname) == 2) {
+                        sprintf(devnode, "/dev/%s_node", devname);
+                        if (strcmp(device, devnode) == 0) {
+                            free(line);
+                            dev = makedev(major, 0);
+                            mknod(device, S_IFCHR /*| 0666*/, dev);
+                            break;
+                        }
+                    }
+                    if (line) {
+                        free(line);
+                        line = NULL;
+                    }
+                }
+                fclose(fp);
+            }
 
-		if ((fd = open (device, O_RDONLY)) < 0)
-		{
-			fprintf (stderr, "unable to open device %s: %s\n", device, strerror (errno));
-			return 1;
-		}
+            if ((fd = open (device, O_RDONLY)) < 0)
+            {
+                fprintf (stderr, "unable to open device %s: %s\n", device, strerror (errno));
+                return 1;
+            }
     }
 
 #ifndef	MEGA_SAS_CTL
