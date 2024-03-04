@@ -598,18 +598,23 @@ int main (int argc, char **argv)
 	}
     }
 
-    if ((fd = open (device, O_RDONLY)) < 0) {
-        if ((fp = fopen ("/proc/devices", "r")) == NULL) {
+    if ((fd = open (device, O_RDONLY)) < 0)
+    {
+        if ((fp = fopen ("/proc/devices", "r")) == NULL)
+	{
             fprintf (stderr, "file /proc/devices access error\n");
             return 1;
         } else {
-            while (getline(&line, &len, fp) != -1) {
-                if ((sscanf(line, "%d "MEGA_NAME"%c", &major, &lf) == 2) && (lf = 10)) {
+            while (getline(&line, &len, fp) != -1)
+	    {
+                if ((sscanf(line, "%d "MEGA_NAME"%c", &major, &lf) == 2) && (lf = 10))
+	        {
                     mknod(device, S_IFCHR /*| 0666*/, makedev(major, 0));
                     free(line);
                     break;
                 }
-                if (line) {
+                if (line)
+	        {
                     free(line);
                     line = NULL;
                 }
