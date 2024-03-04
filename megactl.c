@@ -76,10 +76,12 @@ Fetch TTY logs.
 #ifdef	MEGA_SAS_CTL
 
 #define		MEGA_DEVICE	"/dev/megaraid_sas_ioctl_node"
+#define		MEGA_NAME	"megaraid_sas_ioctl"
 
 #else
 
 #define		MEGA_DEVICE	"/dev/megadev0"
+#define		MEGA_NAME	"megadev"
 
 #define		MEGA_MIN_VERSION	0x118c
 
@@ -383,9 +385,7 @@ int main (int argc, char **argv)
     char			*line = NULL;
     int				major;
     size_t			len = 0;
-    char			devname[20];
-    char			devnode[30];
-    dev_t			dev;
+    char			lf;
 #ifdef	MEGA_SAS_CTL
     int				sas = 1;
 #else
@@ -601,31 +601,27 @@ int main (int argc, char **argv)
     if ((fd = open (device, O_RDONLY)) < 0) {
         if ((fp = fopen ("/proc/devices", "r")) == NULL) {
             fprintf (stderr, "file /proc/devices access error\n");
-                return 1;
-            } else {
-                while (getline(&line, &len, fp) != -1) {
-                    if (sscanf(line, "%d %s\n", &major, devname) == 2) {
-                        sprintf(devnode, "/dev/%s_node", devname);
-                        if (strcmp(device, devnode) == 0) {
-                            free(line);
-                            dev = makedev(major, 0);
-                            mknod(device, S_IFCHR /*| 0666*/, dev);
-                            break;
-                        }
-                    }
-                    if (line) {
-                        free(line);
-                        line = NULL;
-                    }
+            return 1;
+        } else {
+            while (getline(&line, &len, fp) != -1) {
+                if ((sscanf(line, "%d "MEGA_NAME"%c", &major, &lf) == 2) && (lf = 10)) {
+                    mknod(device, S_IFCHR /*| 0666*/, makedev(major, 0));
+                    free(line);
+                    break;
                 }
-                fclose(fp);
+                if (line) {
+                    free(line);
+                    line = NULL;
+                }
             }
+            fclose(fp);
+        }
 
-            if ((fd = open (device, O_RDONLY)) < 0)
-            {
-                fprintf (stderr, "unable to open device %s: %s\n", device, strerror (errno));
-                return 1;
-            }
+        if ((fd = open (device, O_RDONLY)) < 0)
+        {
+            fprintf (stderr, "unable to open device %s: %s\n", device, strerror (errno));
+            return 1;
+        }
     }
 
 #ifndef	MEGA_SAS_CTL
