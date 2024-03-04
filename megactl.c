@@ -63,6 +63,7 @@ Fetch TTY logs.
 #include	<signal.h>
 #include	<ctype.h>
 #include	<sys/types.h>
+#include	<sys/stat.h>
 
 #include	<scg/scsireg.h>
 
@@ -377,6 +378,13 @@ int main (int argc, char **argv)
     uint8_t			readLog[LOG_PAGE_MAX] = { 0, };
     int				reportPhysical = 1;
     int				showVersion = 0;
+    FILE			*fp;
+    char			*line = NULL;
+    int				major;
+    size_t			len = 0;
+    char			devname[20];
+    char			devnode[30];
+    dev_t			dev;
 #ifdef	MEGA_SAS_CTL
     int				sas = 1;
 #else
@@ -589,10 +597,34 @@ int main (int argc, char **argv)
 	}
     }
 
-    if ((fd = open (device, O_RDONLY)) < 0)
-    {
-	fprintf (stderr, "unable to open device %s: %s\n", device, strerror (errno));
-	return 1;
+    if ((fd = open (device, O_RDONLY)) < 0) {
+		if ((fp = fopen ("/proc/devices", "r")) == NULL) {
+			fprintf (stderr, "file /proc/devices access error\n");
+			return 1;
+		} else {
+			while (getline(&line, &len, fp) != -1) {
+				if (sscanf(line, "%d %s\n", &major, devname) == 2) {
+					sprintf(devnode, "/dev/%s_node", devname);
+					if (strcmp(device, devnode) == 0) {
+						free(line);
+						dev = makedev(major, 0);
+						mknod(device, S_IFCHR /*| 0666*/, dev);
+						break;
+					}
+				}
+				if (line) {
+					free(line);
+					line = NULL;
+				}
+			}
+			fclose(fp);
+		}
+
+		if ((fd = open (device, O_RDONLY)) < 0)
+		{
+			fprintf (stderr, "unable to open device %s: %s\n", device, strerror (errno));
+			return 1;
+		}
     }
 
 #ifndef	MEGA_SAS_CTL
