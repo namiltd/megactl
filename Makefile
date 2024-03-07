@@ -1,15 +1,15 @@
-DESTDIR=
-PREFIX=         /usr
-BINDIR=         $(PREFIX)/bin
-METAINFODIR=    $(PREFIX)/share/metainfo/
+DESTDIR:=
+PREFIX:=         /usr
+BINDIR:=         $(PREFIX)/bin
+METAINFODIR:=    $(PREFIX)/share/metainfo/
 
 INSTALL=        install
 
 SRCS=		megactl.c adapter.c megaioctl.c megatrace.c callinfo.c dumpbytes.c logpage.c ntrim.c
 INC=		-I./schily -Iincludes-hack
 HDRS=		mega.h adapter.h megaioctl.h callinfo.h logpage.h dumpbytes.h
-CFLAGS=		-g -Wall $(INC) $(ARCH)
-LDFLAGS=	-g $(ARCH)
+CFLAGS+=		-g -Wall $(INC) $(ARCH)
+LDFLAGS+=	-g $(ARCH)
 PROGRAMS=	megactl megasasctl
 
 all:		$(PROGRAMS)
