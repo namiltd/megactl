@@ -415,7 +415,7 @@ int megaGetDriveErrorCount (struct mega_adapter_path *adapter, uint8_t target, s
 
 int megaSasGetDeviceList (struct mega_adapter_path *adapter, struct mega_device_list_sas **data)
 {
-    unsigned char		buf[0x20];
+    unsigned char		buf[sizeof(struct mega_device_list_sas)];
     uint32_t			len;
 
     if (sasCommand (adapter, buf, sizeof buf, 0x02010000, MFI_FRAME_DIR_READ, NULL, 0) < 0)
