@@ -25,6 +25,7 @@
 
 /* Don't include <sys/types.h> */
 
+#include	<assert.h>
 #include	<memory.h>
 #include	<malloc.h>
 #include	<errno.h>
@@ -109,6 +110,7 @@ static int oldCommand (struct mega_adapter_path *adapter, void *data, uint32_t l
     m->cmd = cmd;
     m->opcode = opcode;
     m->subopcode = subopcode;
+    assert(UINT32_MAX > (uint32_t) data);
     m->xferaddr = (uint32_t) data;
     if (data)
 	memset (data, 0, len);
@@ -137,6 +139,7 @@ static int newCommand (struct mega_adapter_path *adapter, void *data, uint32_t l
     m->cmd = cmd;
     m->opcode = opcode;
     m->subopcode = subopcode;
+    assert(UINT32_MAX > (uint32_t) data);
     m->xferaddr = (uint32_t) data;
     if (data)
 	memset (data, 0, len);
@@ -169,6 +172,7 @@ static int sasCommand (struct mega_adapter_path *adapter, void *data, uint32_t l
 	u.sgl[0].iov_base = data;
 	u.sgl[0].iov_len = len;
 	f->sge_count = 1;
+	assert(UINT32_MAX > (uint32_t) data);
 	f->data_xfer_len = (u32) len;
 	f->sgl.sge32[0].phys_addr = (u32) data;
 	f->sgl.sge32[0].length = (u32) len;
@@ -200,10 +204,12 @@ static int passthruCommand (struct mega_adapter_path *adapter, void *data, uint3
 	u.ui.fcs.adapno = MKADAP(hostMap (adapter->adapno));
 	u.data = data;
 	m->cmd = MBOXCMD_PASSTHRU;
+	assert(UINT32_MAX > (uint32_t) p);
 	m->xferaddr = (uint32_t) p;
 	p->timeout = 3;
 	p->ars = 1;
 	p->target = target;
+	assert(UINT32_MAX > (uint32_t) data);
 	p->dataxferaddr = (uint32_t) data;
 	p->dataxferlen = len;
 	p->scsistatus = 239;	/* HMMM */
@@ -257,6 +263,7 @@ static int passthruCommand (struct mega_adapter_path *adapter, void *data, uint3
 	    u.sgl[0].iov_len = len;
 
 	    f->sge_count = 1;
+	    assert(UINT32_MAX > (uint32_t) len);
 	    f->data_xfer_len = (u32) len;
 	    f->sgl.sge32[0].phys_addr = (u32) data;
 	    f->sgl.sge32[0].length = (u32) len;
