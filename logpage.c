@@ -107,7 +107,8 @@ static char *friendlySize (uint64_t b, char *unit)
 
     for (k = 0; (b >= 1024) && (k < sizeof (suffix) / sizeof (suffix[0]) - 1); ++k, b /= 1024)
 	;
-    snprintf (bytes, sizeof bytes, "%3llu%s%s", b, suffix[k], unit);
+    snprintf (bytes, sizeof bytes, "%3llu%s%s",
+	      (long long unsigned int)b, suffix[k], unit);
     return bytes;
 }
 
@@ -366,7 +367,8 @@ void dumpLogPage (FILE *f, struct logData *x, void *log, size_t len, int verbosi
 		 default:				result = "unknown result"; notice = 0; break;
 		}
 		if (verbosity > notice)
-		    fprintf (f, "    %2d: timestamp %4ud%02uh: %10s %-30s seg:%u lba:%-8lld sk:%u asc:%u ascq:%u vs:%u\n", k, t->timestamp / 24, t->timestamp % 24, test, result, t->number, t->lba, t->sense_key, t->additional_sense_code, t->additional_sense_code_qualifier, t->vendor_specific);
+		    fprintf (f, "    %2d: timestamp %4ud%02uh: %10s %-30s seg:%u lba:%-8lld sk:%u asc:%u ascq:%u vs:%u\n", k, t->timestamp / 24, t->timestamp % 24, test, result, t->number, 
+			     (long long int)t->lba, t->sense_key, t->additional_sense_code, t->additional_sense_code_qualifier, t->vendor_specific);
 	    }
 	}
 	break;
