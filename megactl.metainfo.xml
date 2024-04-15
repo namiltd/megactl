@@ -10,6 +10,8 @@
       PERC2, PERC3, PERC4 and PERC5 adapters.
     </p>
   </description>
+  <url type="homepage">https://github.com/namiltd/megactl/</url>
+  <developer_name>Mieczyslaw Nalewaj</developer_name>
   <provides>
     <modalias>lkmodule:megaraid</modalias>
     <modalias>lkmodule:megaraid_sas</modalias>
