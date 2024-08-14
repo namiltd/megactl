@@ -8,7 +8,8 @@ INSTALL=        install
 SRCS=		megactl.c adapter.c megaioctl.c megatrace.c callinfo.c dumpbytes.c logpage.c ntrim.c
 INC=		-I./schily -Iincludes-hack
 HDRS=		mega.h adapter.h megaioctl.h callinfo.h logpage.h dumpbytes.h
-CFLAGS+=	-g -Wall $(INC) $(ARCH)
+CPPFLAGS+=
+CFLAGS+=	-g -Wall $(INC) $(ARCH) $(CPPFLAGS)
 LDFLAGS+=	-g $(ARCH)
 PROGRAMS=	megactl megasasctl
 
