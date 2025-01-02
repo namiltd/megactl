@@ -34,7 +34,7 @@ install: $(PROGRAMS)
 	$(INSTALL) -d $(DESTDIR)$(BINDIR)/
 	$(INSTALL) $(PROGRAMS) $(DESTDIR)$(BINDIR)
 	$(INSTALL) -d $(DESTDIR)$(METAINFODIR)/
-	$(INSTALL) -m644 megactl.metainfo.xml $(DESTDIR)$(METAINFODIR)/
+	$(INSTALL) -m644 com.github.namiltd.megactl.metainfo.xml $(DESTDIR)$(METAINFODIR)/
 
 clean:
 	$(RM) $(PROGRAMS) *.o
